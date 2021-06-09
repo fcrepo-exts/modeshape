@@ -17,18 +17,18 @@
             <unpack>false</unpack>
             <scope>runtime</scope>
             <includes>
-                <include>org.modeshape:modeshape-jcr-api</include>
+                <include>org.fcrepo:modeshape-jcr-api</include>
                 <include>javax.jcr:jcr</include>
 
                 <!-- Needed for the driver's HTTP communication -->
                 <include>org.apache.httpcomponents:httpclient</include>
                 <include>org.apache.httpcomponents:httpcore</include>
-                <include>org.modeshape:modeshape-common</include>
+                <include>org.fcrepo:modeshape-common</include>
                 <include>org.codehaus.jettison:jettison</include>
                 <include>commons-codec:commons-codec</include>
                 <include>commons-logging:commons-logging</include>
 
-                <include>org.modeshape:modeshape-jdbc-local</include>
+                <include>org.fcrepo:modeshape-jdbc-local</include>
             </includes>
         </dependencySet>
 
@@ -36,7 +36,7 @@
             <unpack>true</unpack>
             <useTransitiveDependencies>false</useTransitiveDependencies>
             <includes>
-                <include>org.modeshape:modeshape-jdbc</include>
+                <include>org.fcrepo:modeshape-jdbc</include>
             </includes>
         </dependencySet>
     </dependencySets>

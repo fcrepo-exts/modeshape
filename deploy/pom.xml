@@ -7,7 +7,7 @@
     <relativePath>../modeshape-parent</relativePath>
   </parent>
 
-  <groupId>org.modeshape.deploy</groupId>
+  <groupId>org.fcrepo.deploy</groupId>
   <artifactId>modeshape-deploy</artifactId>
   <packaging>pom</packaging>
 

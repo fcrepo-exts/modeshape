@@ -9,7 +9,7 @@
         <relativePath>../..</relativePath>
     </parent>
 
-    <groupId>org.modeshape.bom</groupId>
+    <groupId>org.fcrepo.bom</groupId>
     <artifactId>modeshape-bom-remote-client</artifactId>
 
     <name>ModeShape BOM for remote REST and JDBC clients</name>

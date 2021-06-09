@@ -9,7 +9,7 @@
         <relativePath>../..</relativePath>
     </parent>
 
-    <groupId>org.modeshape.bom</groupId>
+    <groupId>org.fcrepo.bom</groupId>
     <artifactId>modeshape-bom-embedded</artifactId>
 
     <name>ModeShape BOM for embedded usage</name>
