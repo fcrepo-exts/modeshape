@@ -9,7 +9,7 @@
         <relativePath>../..</relativePath>
     </parent>
 
-    <groupId>org.modeshape.bom</groupId>
+    <groupId>org.fcrepo.bom</groupId>
     <artifactId>modeshape-bom-jbossas</artifactId>
 
     <name>ModeShape BOM for use within a JBoss App Server</name>
