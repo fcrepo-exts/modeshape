@@ -5,12 +5,12 @@
         <groupId>org.jboss</groupId>
         <artifactId>jboss-parent</artifactId>
         <version>20</version>
-        <relativePath></relativePath>
+        <relativePath />
     </parent>
 
     <groupId>org.fcrepo</groupId>
     <artifactId>modeshape</artifactId>
-    <version>5.5-SNAPSHOT</version>
+    <version>5.5.0.fcr</version>
 
     <packaging>pom</packaging>
     <name>ModeShape</name>
@@ -28,7 +28,8 @@
         <connection>scm:git:git://github.com/ModeShape/modeshape.git</connection>
         <developerConnection>scm:git:git@github.com:ModeShape/modeshape.git</developerConnection>
         <url>http://github.com/ModeShape/modeshape</url>
-    </scm>
+      <tag>modeshape-5.5.0.fcr</tag>
+  </scm>
 
     <modules>
         <!-- Order is important -->

@@ -1,9 +1,8 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <parent>
         <groupId>org.fcrepo</groupId>
         <artifactId>modeshape</artifactId>
-        <version>5.5-SNAPSHOT</version>
+        <version>5.5.0.fcr</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -24,7 +23,8 @@
         <connection>scm:git:git://github.com/fcrepo4-exts/modeshape.git</connection>
         <developerConnection>scm:git:git@github.com:fcrepo4-exts/modeshape.git</developerConnection>
         <url>http://github.com/fcrepo4-exts/modeshape</url>
-    </scm>
+      <tag>modeshape-5.5.0.fcr</tag>
+  </scm>
 
     <issueManagement>
         <system>jira</system>
@@ -98,7 +98,7 @@
         <!--By default, we use whatever the underlying machine supports. However, certain sub-modules may change this -->
         <preferIpv4>false</preferIpv4>
         <preferIpv6>true</preferIpv6>
-        <debug.argline/>
+        <debug.argline />
 
         <!-- OpenDocument API -->
         <version.org.odftoolkit.odfdom-java>0.8.7</version.org.odftoolkit.odfdom-java>
@@ -318,8 +318,8 @@
                 <database.driver>org.h2.Driver</database.driver>
                 <database.url>jdbc:h2:file:./target/db</database.url>
                 <database.username>sa</database.username>
-                <database.password/>
-                <docker.filter/>
+                <database.password />
+                <docker.filter />
             </properties>
         </profile>
 
@@ -921,8 +921,7 @@
                         </goals>
                         <configuration>
                             <rules>
-                                <illegalTransitiveDependencyCheck
-                                        implementation="de.is24.maven.enforcer.rules.IllegalTransitiveDependencyCheck">
+                                <illegalTransitiveDependencyCheck implementation="de.is24.maven.enforcer.rules.IllegalTransitiveDependencyCheck">
                                     <regexIgnoredClasses>
                                         <regexIgnoredClass>com\.sun\.net\.httpserver\..+</regexIgnoredClass>
                                         <regexIgnoredClass>javax\..+</regexIgnoredClass>
