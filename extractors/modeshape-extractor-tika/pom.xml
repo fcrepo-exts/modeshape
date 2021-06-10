@@ -3,7 +3,7 @@
     <parent>
         <groupId>org.fcrepo</groupId>
         <artifactId>modeshape-extractors</artifactId>
-        <version>5.5.0.fcr</version>
+        <version>5.6.0.fcr-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <!-- The groupId and version values are inherited from parent -->
