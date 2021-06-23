@@ -445,6 +445,54 @@
                 <skipLongRunningTests>false</skipLongRunningTests>
             </properties>
         </profile>
+        <profile>
+            <id>release-sign-artifacts</id>
+            <activation>
+                <property>
+                    <name>performRelease</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <artifactId>maven-gpg-plugin</artifactId>
+                            <version>${gpg.plugin.version}</version>
+                            <executions>
+                                <execution>
+                                    <id>sign-artifacts</id>
+                                    <phase>verify</phase>
+                                    <goals>
+                                        <goal>sign</goal>
+                                    </goals>
+                                </execution>
+                            </executions>
+                            <configuration>
+                                <useAgent>true</useAgent>
+                                <!-- https://github.com/actions/setup-java/issues/91 -->
+                                <gpgArguments>
+                                    <arg>--pinentry-mode</arg>
+                                    <arg>loopback</arg>
+                                </gpgArguments>
+                                <!-- This is needed for github actions -->
+                                <passphraseServerId>gpg.passphrase</passphraseServerId>
+                            </configuration>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
     </profiles>
 
     <build>
@@ -706,27 +754,43 @@
                     </configuration>
                 </plugin>
                 <plugin>
-                    <artifactId>maven-gpg-plugin</artifactId>
-                    <version>${gpg.plugin.version}</version>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>${version.javadoc.plugin}</version>
+                    <configuration>
+                        <source>8</source>
+                        <linksource>true</linksource>
+                        <quiet>true</quiet>
+                        <additionalparam>-Xdoclint:none</additionalparam>
+                        <dependencySourceIncludes>
+                            <!-- We only want JavaDoc for the modules with a groupId of "org.modeshape" -->
+                            <dependencySourceInclude>org.fcrepo:*</dependencySourceInclude>
+                        </dependencySourceIncludes>
+                        <dependencySourceExcludes>
+                            <!-- But want to exclude certain artifacts and modules -->
+                            <dependencySourceExclude>org.fcrepo:modeshape-integration-tests:*</dependencySourceExclude>
+                            <dependencySourceExclude>org.fcrepo:modeshape-jbossas-integration-tests:*</dependencySourceExclude>
+                            <dependencySourceExclude>org.fcrepo:*:test:*</dependencySourceExclude>
+                            <dependencySourceExclude>org.fcrepo:modeshape-client:*</dependencySourceExclude>
+                        </dependencySourceExcludes>
+                    </configuration>
                     <executions>
                         <execution>
-                            <id>sign-artifacts</id>
-                            <phase>verify</phase>
+                            <id>verify-javadocs</id>
                             <goals>
-                                <goal>sign</goal>
+                                <goal>jar</goal>
+                                <goal>test-jar</goal>
                             </goals>
                         </execution>
+                        <execution>
+                            <id>attach-javadocs</id>
+                            <goals>
+                                <goal>jar</goal>
+                                <goal>javadoc</goal>
+                            </goals>
+                            <phase>site</phase>
+                        </execution>
                     </executions>
-                    <configuration>
-                        <useAgent>true</useAgent>
-                        <!-- https://github.com/actions/setup-java/issues/91 -->
-                        <gpgArguments>
-                            <arg>--pinentry-mode</arg>
-                            <arg>loopback</arg>
-                        </gpgArguments>
-                        <!-- This is needed for github actions -->
-                        <passphraseServerId>gpg.passphrase</passphraseServerId>
-                    </configuration>
                 </plugin>
             </plugins>
         </pluginManagement>
