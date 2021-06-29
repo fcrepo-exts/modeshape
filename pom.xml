@@ -71,6 +71,7 @@
     </modules>
     <properties>
         <rootDir>${project.basedir}</rootDir>
+        <gpg.plugin.version>1.6</gpg.plugin.version>
     </properties>
 
     <profiles>
@@ -121,6 +122,55 @@
                 <module>modeshape-client</module>
                 <module>integration</module>
             </modules>
+        </profile>
+
+        <profile>
+            <id>release-sign-artifacts</id>
+            <activation>
+                <property>
+                    <name>performRelease</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-javadoc-plugin</artifactId>
+                        </plugin>
+                        <plugin>
+                            <artifactId>maven-gpg-plugin</artifactId>
+                            <version>${gpg.plugin.version}</version>
+                            <executions>
+                                <execution>
+                                    <id>sign-artifacts</id>
+                                    <phase>verify</phase>
+                                    <goals>
+                                        <goal>sign</goal>
+                                    </goals>
+                                </execution>
+                            </executions>
+                            <configuration>
+                                <useAgent>true</useAgent>
+                                <!-- https://github.com/actions/setup-java/issues/91 -->
+                                <gpgArguments>
+                                    <arg>--pinentry-mode</arg>
+                                    <arg>loopback</arg>
+                                </gpgArguments>
+                                <!-- This is needed for github actions -->
+                                <passphraseServerId>gpg.passphrase</passphraseServerId>
+                            </configuration>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
         </profile>
     </profiles>
     <build>
