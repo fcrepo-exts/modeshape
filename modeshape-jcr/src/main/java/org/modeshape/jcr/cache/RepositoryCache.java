@@ -83,9 +83,6 @@ public class RepositoryCache {
 
     private static final Logger LOGGER = Logger.getLogger(RepositoryCache.class);
 
-    private static final String UPGRADE_TIMEOUT_PROPERTY = "modeshape.upgrade.timeout.minutes";
-    private static final Long UPGRADE_TIMEOUT = Long.getLong(UPGRADE_TIMEOUT_PROPERTY, 10);
-
     private static final String SYSTEM_METADATA_IDENTIFIER = "jcr:system/mode:metadata";
     private static final String REPOSITORY_NAME_FIELD_NAME = "repositoryName";
     private static final String REPOSITORY_KEY_FIELD_NAME = "repositoryKey";
@@ -204,7 +201,7 @@ public class RepositoryCache {
                             }
                             return isRolledBack.get() || 
                                    persistedInitializerInfo.content().containsField(REPOSITORY_INITIALIZED_AT_FIELD_NAME);
-                        }, UPGRADE_TIMEOUT, TimeUnit.MINUTES, JcrI18n.repositoryWasNeverInitializedAfterMinutes);
+                        }, 10, TimeUnit.MINUTES, JcrI18n.repositoryWasNeverInitializedAfterMinutes);
                         // it may have been rolled back, in which case we'll try ourselves again
                         initializerDecided = !isRolledBack.get();
                     }
@@ -263,15 +260,15 @@ public class RepositoryCache {
             }
         }
 
-        // If we're not doing the upgrade, then block for at most UPGRADE_TIMEOUT minutes while another process does ...
+        // If we're not doing the upgrade, then block for at most 10 minutes while another process does ...
         if (upgradeRequired && !upgradingRepository) {
-            LOGGER.debug("Waiting at most for {1} minutes for another process in the cluster to upgrade the content in existing repository '{0}'",
-                         name, UPGRADE_TIMEOUT);
+            LOGGER.debug("Waiting at most for 10 minutes for another process in the cluster to upgrade the content in existing repository '{0}'",
+                         name);
             waitUntil(() -> {
                 Document info = documentStore().localStore().get(REPOSITORY_INFO_KEY).content();
                 int lastUpgradeId = info.getInteger(REPOSITORY_UPGRADE_ID_FIELD_NAME, 0);
                 return !upgrades.isUpgradeRequired(lastUpgradeId);
-            }, UPGRADE_TIMEOUT, TimeUnit.MINUTES, JcrI18n.repositoryWasNeverUpgradedAfterMinutes);
+            }, 10, TimeUnit.MINUTES, JcrI18n.repositoryWasNeverUpgradedAfterMinutes);
             LOGGER.debug("Content in existing repository '{0}' has been fully upgraded", name);
         } else if (!initializingRepository) {
             LOGGER.debug("Content in existing repository '{0}' does not need to be upgraded", name);
