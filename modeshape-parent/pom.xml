@@ -228,6 +228,12 @@
             <name>Redhat GA Repository</name>
             <url>https://maven.repository.redhat.com/ga/</url>
         </repository>
+        <!-- added for retrieval of fungal-cli dependency -->
+        <repository>
+            <id>geomajas</id>
+            <name>Geomajas Repository</name>
+            <url>http://maven.geomajas.org/</url>
+        </repository>
     </repositories>
 
     <profiles>
