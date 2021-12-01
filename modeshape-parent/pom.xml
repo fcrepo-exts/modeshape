@@ -2,7 +2,7 @@
     <parent>
         <groupId>org.fcrepo</groupId>
         <artifactId>modeshape</artifactId>
-        <version>5.6.0.fcr-SNAPSHOT</version>
+        <version>5.5.1.fcr</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -23,7 +23,7 @@
         <connection>scm:git:git://github.com/fcrepo4-exts/modeshape.git</connection>
         <developerConnection>scm:git:git@github.com:fcrepo4-exts/modeshape.git</developerConnection>
         <url>http://github.com/fcrepo4-exts/modeshape</url>
-      <tag>HEAD</tag>
+      <tag>modeshape-5.5.1.fcr</tag>
   </scm>
 
     <issueManagement>
