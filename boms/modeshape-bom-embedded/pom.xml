@@ -1,15 +1,14 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
         <groupId>org.fcrepo</groupId>
         <artifactId>modeshape</artifactId>
-        <version>5.5-SNAPSHOT</version>
+        <version>5.6.0.fcr-SNAPSHOT</version>
         <relativePath>../..</relativePath>
     </parent>
 
-    <groupId>org.modeshape.bom</groupId>
+    <groupId>org.fcrepo.bom</groupId>
     <artifactId>modeshape-bom-embedded</artifactId>
 
     <name>ModeShape BOM for embedded usage</name>
@@ -36,7 +35,8 @@
         <connection>scm:git:git://github.com/fcrepo4-exts/modeshape.git</connection>
         <developerConnection>scm:git:git@github.com:fcrepo4-exts/modeshape.git</developerConnection>
         <url>http://github.com/fcrepo4-exts/modeshape</url>
-    </scm>
+      <tag>HEAD</tag>
+  </scm>
 
     <issueManagement>
         <system>jira</system>
@@ -694,17 +694,4 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
-    <distributionManagement>
-      <repository>
-        <id>jboss-releases-repository</id>
-        <name>JBoss Releases Repository</name>
-        <url>${jboss.releases.repo.url}</url>
-      </repository>
-      <snapshotRepository>
-        <id>jboss-snapshots-repository</id>
-        <name>JBoss Snapshots Repository</name>
-        <url>${jboss.snapshots.repo.url}</url>
-      </snapshotRepository>
-    </distributionManagement>
 </project>

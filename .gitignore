@@ -47,3 +47,5 @@ ObjectStore
 # Atomikos
 *.lck
 *.epoch
+
+settings-local.xml

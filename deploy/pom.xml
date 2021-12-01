@@ -3,11 +3,11 @@
   <parent>
     <groupId>org.fcrepo</groupId>
     <artifactId>modeshape-parent</artifactId>
-    <version>5.5-SNAPSHOT</version>
+    <version>5.6.0.fcr-SNAPSHOT</version>
     <relativePath>../modeshape-parent</relativePath>
   </parent>
 
-  <groupId>org.modeshape.deploy</groupId>
+  <groupId>org.fcrepo.deploy</groupId>
   <artifactId>modeshape-deploy</artifactId>
   <packaging>pom</packaging>
 

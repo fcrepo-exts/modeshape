@@ -1,9 +1,8 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <parent>
         <groupId>org.fcrepo</groupId>
         <artifactId>modeshape</artifactId>
-        <version>5.5-SNAPSHOT</version>
+        <version>5.6.0.fcr-SNAPSHOT</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -24,7 +23,8 @@
         <connection>scm:git:git://github.com/fcrepo4-exts/modeshape.git</connection>
         <developerConnection>scm:git:git@github.com:fcrepo4-exts/modeshape.git</developerConnection>
         <url>http://github.com/fcrepo4-exts/modeshape</url>
-    </scm>
+      <tag>HEAD</tag>
+  </scm>
 
     <issueManagement>
         <system>jira</system>
@@ -98,7 +98,7 @@
         <!--By default, we use whatever the underlying machine supports. However, certain sub-modules may change this -->
         <preferIpv4>false</preferIpv4>
         <preferIpv6>true</preferIpv6>
-        <debug.argline/>
+        <debug.argline />
 
         <!-- OpenDocument API -->
         <version.org.odftoolkit.odfdom-java>0.8.7</version.org.odftoolkit.odfdom-java>
@@ -210,6 +210,7 @@
         <version.fabric8.docker.plugin>0.19.0</version.fabric8.docker.plugin>
         <version.org.elasticsearch>2.4.5</version.org.elasticsearch>
         <version.jna>4.1.0</version.jna>
+        <release.plugin.version>2.5.2</release.plugin.version>
         <!--The name of the modeshape-client artifact used by tools-->
         <client.artifactId>modeshape-client</client.artifactId>
 
@@ -317,8 +318,8 @@
                 <database.driver>org.h2.Driver</database.driver>
                 <database.url>jdbc:h2:file:./target/db</database.url>
                 <database.username>sa</database.username>
-                <database.password/>
-                <docker.filter/>
+                <database.password />
+                <docker.filter />
             </properties>
         </profile>
 
@@ -704,6 +705,53 @@
                         </systemPropertyVariables>
                     </configuration>
                 </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>${version.javadoc.plugin}</version>
+                    <configuration>
+                        <source>8</source>
+                        <linksource>true</linksource>
+                        <quiet>true</quiet>
+                        <additionalparam>-Xdoclint:none</additionalparam>
+                        <dependencySourceIncludes>
+                            <!-- We only want JavaDoc for the modules with a groupId of "org.modeshape" -->
+                            <dependencySourceInclude>org.fcrepo:*</dependencySourceInclude>
+                        </dependencySourceIncludes>
+                        <dependencySourceExcludes>
+                            <!-- But want to exclude certain artifacts and modules -->
+                            <dependencySourceExclude>org.fcrepo:modeshape-integration-tests:*</dependencySourceExclude>
+                            <dependencySourceExclude>org.fcrepo:modeshape-jbossas-integration-tests:*</dependencySourceExclude>
+                            <dependencySourceExclude>org.fcrepo:*:test:*</dependencySourceExclude>
+                            <dependencySourceExclude>org.fcrepo:modeshape-client:*</dependencySourceExclude>
+                        </dependencySourceExcludes>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>verify-javadocs</id>
+                            <goals>
+                                <goal>jar</goal>
+                                <goal>test-jar</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>attach-javadocs</id>
+                            <goals>
+                                <goal>jar</goal>
+                                <goal>javadoc</goal>
+                            </goals>
+                            <phase>site</phase>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-release-plugin</artifactId>
+                    <version>${release.plugin.version}</version>
+                    <configuration>
+                        <!-- see http://jira.codehaus.org/browse/MRELEASE-424 -->
+                        <mavenExecutorId>forked-path</mavenExecutorId>
+                    </configuration>
+                </plugin>
             </plugins>
         </pluginManagement>
         <plugins>
@@ -873,8 +921,7 @@
                         </goals>
                         <configuration>
                             <rules>
-                                <illegalTransitiveDependencyCheck
-                                        implementation="de.is24.maven.enforcer.rules.IllegalTransitiveDependencyCheck">
+                                <illegalTransitiveDependencyCheck implementation="de.is24.maven.enforcer.rules.IllegalTransitiveDependencyCheck">
                                     <regexIgnoredClasses>
                                         <regexIgnoredClass>com\.sun\.net\.httpserver\..+</regexIgnoredClass>
                                         <regexIgnoredClass>javax\..+</regexIgnoredClass>
@@ -887,6 +934,13 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <artifactId>maven-release-plugin</artifactId>
             </plugin>
         </plugins>
     </build>

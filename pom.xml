@@ -5,12 +5,12 @@
         <groupId>org.jboss</groupId>
         <artifactId>jboss-parent</artifactId>
         <version>20</version>
-        <relativePath></relativePath>
+        <relativePath />
     </parent>
 
     <groupId>org.fcrepo</groupId>
     <artifactId>modeshape</artifactId>
-    <version>5.5-SNAPSHOT</version>
+    <version>5.6.0.fcr-SNAPSHOT</version>
 
     <packaging>pom</packaging>
     <name>ModeShape</name>
@@ -28,7 +28,8 @@
         <connection>scm:git:git://github.com/ModeShape/modeshape.git</connection>
         <developerConnection>scm:git:git@github.com:ModeShape/modeshape.git</developerConnection>
         <url>http://github.com/ModeShape/modeshape</url>
-    </scm>
+      <tag>HEAD</tag>
+  </scm>
 
     <modules>
         <!-- Order is important -->
@@ -71,6 +72,7 @@
     </modules>
     <properties>
         <rootDir>${project.basedir}</rootDir>
+        <gpg.plugin.version>1.6</gpg.plugin.version>
     </properties>
 
     <profiles>
@@ -122,5 +124,74 @@
                 <module>integration</module>
             </modules>
         </profile>
+
+        <profile>
+            <id>release-sign-artifacts</id>
+            <activation>
+                <property>
+                    <name>performRelease</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-javadoc-plugin</artifactId>
+                        </plugin>
+                        <plugin>
+                            <artifactId>maven-gpg-plugin</artifactId>
+                            <version>${gpg.plugin.version}</version>
+                            <executions>
+                                <execution>
+                                    <id>sign-artifacts</id>
+                                    <phase>verify</phase>
+                                    <goals>
+                                        <goal>sign</goal>
+                                    </goals>
+                                </execution>
+                            </executions>
+                            <configuration>
+                                <useAgent>true</useAgent>
+                                <!-- https://github.com/actions/setup-java/issues/91 -->
+                                <gpgArguments>
+                                    <arg>--pinentry-mode</arg>
+                                    <arg>loopback</arg>
+                                </gpgArguments>
+                                <!-- This is needed for github actions -->
+                                <passphraseServerId>gpg.passphrase</passphraseServerId>
+                            </configuration>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
     </profiles>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>sonatype-nexus-snapshots</id>
+            <name>Sonatype Nexus Shapshots</name>
+            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+        </snapshotRepository>
+        <repository>
+            <id>sonatype-nexus-staging</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
 </project>
